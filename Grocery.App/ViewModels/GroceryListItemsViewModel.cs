@@ -6,6 +6,8 @@ using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
 using System.Collections.ObjectModel;
 using System.Text.Json;
+using System.Windows.Input;
+//using static Android.App.DownloadManager;
 
 namespace Grocery.App.ViewModels
 {
@@ -84,6 +86,25 @@ namespace Grocery.App.ViewModels
             {
                 await Toast.Make($"Opslaan mislukt: {ex.Message}").Show(cancellationToken);
             }
+        }
+
+        [RelayCommand]
+        private void SearchProduct(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                GetAvailableProducts();
+                return;
+               
+            }
+            var filtered = _productService.GetAll()
+        .Where(p => p.Name.Contains(text, StringComparison.OrdinalIgnoreCase)
+                    && p.Stock > 0
+                    && !MyGroceryListItems.Any(g => g.ProductId == p.Id));
+
+            AvailableProducts.Clear();
+            foreach (var product in filtered)
+                AvailableProducts.Add(product);
         }
 
     }
