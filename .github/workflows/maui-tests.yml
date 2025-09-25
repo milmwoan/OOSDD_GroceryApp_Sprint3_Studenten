@@ -4,11 +4,12 @@ on:
   push:
     branches:
       - main
+      - Develop
       - infra/runner-toevoegen
   pull_request:
     branches:
       - main
-      - develop
+      - Develop
  
 jobs:
   test:
