@@ -117,7 +117,7 @@ namespace Grocery.App.ViewModels
                
             }
             var filtered = _productService.GetAll()
-        .Where(p => p.Name.Contains(text, StringComparison.OrdinalIgnoreCase)
+        .Where(p => p.Name.Contains(text, StringComparison.OrdinalIgnoreCase) // vergelijkt de tekst in de zoekbalk met de naam van het product
                     && p.Stock > 0
                     && !MyGroceryListItems.Any(g => g.ProductId == p.Id));
 
