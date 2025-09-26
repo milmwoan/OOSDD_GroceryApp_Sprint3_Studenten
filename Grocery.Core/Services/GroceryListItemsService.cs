@@ -36,12 +36,12 @@ namespace Grocery.Core.Services
 
         public GroceryListItem? Delete(GroceryListItem item)
         {
-            throw new NotImplementedException();
+           return _groceriesRepository.Delete(item);
         }
 
         public GroceryListItem? Get(int id)
         {
-            throw new NotImplementedException();
+            return _groceriesRepository.Get(id);
         }
 
         public GroceryListItem? Update(GroceryListItem item)
