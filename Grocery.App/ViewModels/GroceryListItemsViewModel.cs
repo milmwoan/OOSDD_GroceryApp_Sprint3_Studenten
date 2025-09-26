@@ -86,5 +86,32 @@ namespace Grocery.App.ViewModels
             }
         }
 
+
+        [RelayCommand]
+        private void SearchProduct(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                GetAvailableProducts();
+                return;
+               
+            }
+            var filtered = _productService.GetAll()
+        .Where(p => p.Name.Contains(text, StringComparison.OrdinalIgnoreCase) // vergelijkt de tekst in de zoekbalk met de naam van het product
+                    && p.Stock > 0
+                    && !MyGroceryListItems.Any(g => g.ProductId == p.Id));
+
+            AvailableProducts.Clear();
+            foreach (var product in filtered)
+                AvailableProducts.Add(product);
+        }
+
+       
+
+
+
+
+
+
     }
 }
