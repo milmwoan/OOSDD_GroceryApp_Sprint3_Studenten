@@ -5,11 +5,7 @@ using Grocery.App.Views;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
 using System.Collections.ObjectModel;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
-
-
-//using static Android.App.DownloadManager;
 
 namespace Grocery.App.ViewModels
 {
@@ -22,14 +18,12 @@ namespace Grocery.App.ViewModels
         
         public ObservableCollection<GroceryListItem> MyGroceryListItems { get; set; } = [];
         public ObservableCollection<Product> AvailableProducts { get; set; } = [];
-        public ObservableCollection<string> SortOptions { get; } = new();
 
         [ObservableProperty]
         GroceryList groceryList = new(0, "None", DateOnly.MinValue, "", 0);
         [ObservableProperty]
         string myMessage;
 
-        
         public GroceryListItemsViewModel(IGroceryListItemsService groceryListItemsService, IProductService productService, IFileSaverService fileSaverService)
         {
             _groceryListItemsService = groceryListItemsService;
@@ -75,21 +69,6 @@ namespace Grocery.App.ViewModels
             AvailableProducts.Remove(product);
             OnGroceryListChanged(GroceryList);
         }
-        [RelayCommand]
-        public void RemoveGroceryListItem(GroceryListItem item)
-        {
-            if (item == null)
-                return;
-            var product = item.Product ?? _productService.Get(item.ProductId);
-            if (product != null)
-            {
-                product.Stock += item.Amount;
-                _productService.Update(product);
-                 
-                MyGroceryListItems.Remove(item);
-                AvailableProducts.Add(product);
-            }
-        }
 
         [RelayCommand]
         public async Task ShareGroceryList(CancellationToken cancellationToken)
@@ -106,31 +85,6 @@ namespace Grocery.App.ViewModels
                 await Toast.Make($"Opslaan mislukt: {ex.Message}").Show(cancellationToken);
             }
         }
-
-        [RelayCommand]
-        private void SearchProduct(string text)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                GetAvailableProducts();
-                return;
-               
-            }
-            var filtered = _productService.GetAll()
-        .Where(p => p.Name.Contains(text, StringComparison.OrdinalIgnoreCase)
-                    && p.Stock > 0
-                    && !MyGroceryListItems.Any(g => g.ProductId == p.Id));
-
-            AvailableProducts.Clear();
-            foreach (var product in filtered)
-                AvailableProducts.Add(product);
-        }
-
-       
-
-
-
-
 
     }
 }

@@ -31,16 +31,14 @@ namespace TestCore
         [Test]
         public void TestPasswordHelperReturnsFalse()
         {
-            string password = "user1";
-            string passwordHash = "sxnIcZdYt8wC8MYWcQVQjQ==.FKd5Z/jwxPv3a63lX+uvQ0+P7EuNYZybvkmdhbnkIHA=";
-            Assert.IsFalse(PasswordHelper.VerifyPassword(password,passwordHash)); 
+            Assert.Pass(); //Zelf uitwerken
         }
 
-        [TestCase("user1", "sxnIcZdYt8wC8MYWcQVQjQ==.FKd5Z/jwxPv3a63lX+uvQ0+P7EuNYZybvkmdhbnkIHA=")]
-        [TestCase("user3", "IunRhDKa+fWo8+4/Qfj7Pg==.kDxZnUQHCZun6gLIE6d9oeULLRIuRmxmH2QKJv2IM08=")]
+        [TestCase("user1", "IunRhDKa+fWo8+4/Qfj7Pg==.kDxZnUQHCZun6gLIE6d9oeULLRIuRmxmH2QKJv2IM08")]
+        [TestCase("user3", "sxnIcZdYt8wC8MYWcQVQjQ==.FKd5Z/jwxPv3a63lX+uvQ0+P7EuNYZybvkmdhbnkIHA")]
         public void TestPasswordHelperReturnsFalse(string password, string passwordHash)
         {
-            Assert.IsFalse(PasswordHelper.VerifyPassword(password,passwordHash)); 
+            Assert.Fail(); //Zelf uitwerken zodat de test slaagt!
         }
     }
 }
